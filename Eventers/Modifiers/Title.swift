@@ -9,10 +9,16 @@
 import Foundation
 import SwiftUI
 
-struct Title: ViewModifier {
+private struct Title: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.largeTitle)
             .padding()
+    }
+}
+
+extension View {
+    func titleFont() -> some View {
+        self.modifier(Title())
     }
 }

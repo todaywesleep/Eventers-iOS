@@ -10,7 +10,20 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        NavigationView {
+            VStack {
+                Text("Splash screen")
+                    .titleFont()
+                
+                Spacer()
+                
+                NavigationLink(destination: AuthView()) {
+                    Text("Authorize")
+                }
+                
+                Spacer()
+            }.hideNavigationBar()
+        }
     }
 }
 

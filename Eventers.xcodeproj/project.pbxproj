@@ -3,13 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A158B4E324C0E6970085D58D /* FontTitleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E224C0E6970085D58D /* FontTitleModifier.swift */; };
+		A158B4E324C0E6970085D58D /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E224C0E6970085D58D /* Title.swift */; };
 		A158B4E624C0E7D20085D58D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E524C0E7D20085D58D /* Colors.swift */; };
 		A158B4E924C0E8A70085D58D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E824C0E8A70085D58D /* Color+.swift */; };
+		A158B4ED24C0ED690085D58D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4EC24C0ED690085D58D /* AuthView.swift */; };
+		A158B4EF24C0EFDB0085D58D /* NavigationBarHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4EE24C0EFDB0085D58D /* NavigationBarHidden.swift */; };
+		A158B4F224C0F1CD0085D58D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = A158B4F124C0F1CD0085D58D /* ComposableArchitecture */; };
+		A158B4F424C0F1CD0085D58D /* ComposableCoreMotion in Frameworks */ = {isa = PBXBuildFile; productRef = A158B4F324C0F1CD0085D58D /* ComposableCoreMotion */; };
+		A158B4F624C0F1CD0085D58D /* ComposableCoreLocation in Frameworks */ = {isa = PBXBuildFile; productRef = A158B4F524C0F1CD0085D58D /* ComposableCoreLocation */; };
+		A158B4F924C0F4B40085D58D /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4F824C0F4B40085D58D /* NavigationButton.swift */; };
 		A18EEFFC24C0C60C0013D45C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18EEFFB24C0C60C0013D45C /* AppDelegate.swift */; };
 		A18EEFFE24C0C60C0013D45C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18EEFFD24C0C60C0013D45C /* SceneDelegate.swift */; };
 		A18EF00024C0C60C0013D45C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18EEFFF24C0C60C0013D45C /* ContentView.swift */; };
@@ -38,9 +44,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A158B4E224C0E6970085D58D /* FontTitleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontTitleModifier.swift; sourceTree = "<group>"; };
+		A158B4E224C0E6970085D58D /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		A158B4E524C0E7D20085D58D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A158B4E824C0E8A70085D58D /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		A158B4EC24C0ED690085D58D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		A158B4EE24C0EFDB0085D58D /* NavigationBarHidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarHidden.swift; sourceTree = "<group>"; };
+		A158B4F824C0F4B40085D58D /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		A18EEFF824C0C60C0013D45C /* Eventers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eventers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A18EEFFB24C0C60C0013D45C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A18EEFFD24C0C60C0013D45C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A158B4F624C0F1CD0085D58D /* ComposableCoreLocation in Frameworks */,
+				A158B4F424C0F1CD0085D58D /* ComposableCoreMotion in Frameworks */,
+				A158B4F224C0F1CD0085D58D /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,12 +94,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A158B4E124C0E6740085D58D /* Modifier */ = {
+		A158B4E124C0E6740085D58D /* Modifiers */ = {
 			isa = PBXGroup;
 			children = (
-				A158B4E224C0E6970085D58D /* FontTitleModifier.swift */,
+				A158B4E224C0E6970085D58D /* Title.swift */,
+				A158B4EE24C0EFDB0085D58D /* NavigationBarHidden.swift */,
 			);
-			path = Modifier;
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		A158B4E424C0E7C50085D58D /* Theme */ = {
@@ -98,18 +111,43 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
-		A158B4E724C0E8920085D58D /* Extension */ = {
+		A158B4E724C0E8920085D58D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				A158B4E824C0E8A70085D58D /* Color+.swift */,
 			);
-			path = Extension;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A158B4EA24C0ED360085D58D /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				A158B4EB24C0ED5F0085D58D /* Auth */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		A158B4EB24C0ED5F0085D58D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A158B4EC24C0ED690085D58D /* AuthView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		A158B4F724C0F4A30085D58D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A158B4F824C0F4B40085D58D /* NavigationButton.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		A18EEFEF24C0C60C0013D45C = {
 			isa = PBXGroup;
 			children = (
 				A18EEFFA24C0C60C0013D45C /* Eventers */,
+				A158B4F724C0F4A30085D58D /* View */,
 				A18EF01124C0C60D0013D45C /* EventersTests */,
 				A18EF01C24C0C60D0013D45C /* EventersUITests */,
 				A18EEFF924C0C60C0013D45C /* Products */,
@@ -132,9 +170,10 @@
 				A18EF02D24C0C7530013D45C /* App */,
 				A18EF02C24C0C7410013D45C /* Asset */,
 				A18EF02B24C0C7310013D45C /* Configuration */,
-				A158B4E724C0E8920085D58D /* Extension */,
-				A158B4E124C0E6740085D58D /* Modifier */,
+				A158B4E724C0E8920085D58D /* Extensions */,
+				A158B4E124C0E6740085D58D /* Modifiers */,
 				A158B4E424C0E7C50085D58D /* Theme */,
+				A158B4EA24C0ED360085D58D /* Modules */,
 				A18EEFFF24C0C60C0013D45C /* ContentView.swift */,
 			);
 			path = Eventers;
@@ -201,6 +240,11 @@
 			dependencies = (
 			);
 			name = Eventers;
+			packageProductDependencies = (
+				A158B4F124C0F1CD0085D58D /* ComposableArchitecture */,
+				A158B4F324C0F1CD0085D58D /* ComposableCoreMotion */,
+				A158B4F524C0F1CD0085D58D /* ComposableCoreLocation */,
+			);
 			productName = Eventers;
 			productReference = A18EEFF824C0C60C0013D45C /* Eventers.app */;
 			productType = "com.apple.product-type.application";
@@ -273,6 +317,9 @@
 				Base,
 			);
 			mainGroup = A18EEFEF24C0C60C0013D45C;
+			packageReferences = (
+				A158B4F024C0F1CD0085D58D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = A18EEFF924C0C60C0013D45C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -316,11 +363,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A158B4ED24C0ED690085D58D /* AuthView.swift in Sources */,
 				A18EEFFC24C0C60C0013D45C /* AppDelegate.swift in Sources */,
+				A158B4F924C0F4B40085D58D /* NavigationButton.swift in Sources */,
 				A158B4E924C0E8A70085D58D /* Color+.swift in Sources */,
 				A158B4E624C0E7D20085D58D /* Colors.swift in Sources */,
 				A18EEFFE24C0C60C0013D45C /* SceneDelegate.swift in Sources */,
-				A158B4E324C0E6970085D58D /* FontTitleModifier.swift in Sources */,
+				A158B4EF24C0EFDB0085D58D /* NavigationBarHidden.swift in Sources */,
+				A158B4E324C0E6970085D58D /* Title.swift in Sources */,
 				A18EF00024C0C60C0013D45C /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,6 +690,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A158B4F024C0F1CD0085D58D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A158B4F124C0F1CD0085D58D /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A158B4F024C0F1CD0085D58D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		A158B4F324C0F1CD0085D58D /* ComposableCoreMotion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A158B4F024C0F1CD0085D58D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableCoreMotion;
+		};
+		A158B4F524C0F1CD0085D58D /* ComposableCoreLocation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A158B4F024C0F1CD0085D58D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableCoreLocation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A18EEFF024C0C60C0013D45C /* Project object */;
 }
