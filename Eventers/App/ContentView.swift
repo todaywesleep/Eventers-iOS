@@ -7,8 +7,11 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct ContentView: View {
+    let store: Store<AppState, AppAction>
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -29,6 +32,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let store = Store<AppState, AppAction>(
+            initialState: AppState(),
+            reducer: appReducer,
+            environment: AppEnvironment()
+        )
+        
+        return ContentView(store: store)
     }
 }
