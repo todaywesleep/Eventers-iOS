@@ -7,11 +7,59 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct AuthView: View {
+    let store = Store<AuthState, AuthAction>(
+        initialState: AuthState.empty,
+        reducer: authReducer,
+        environment: .init()
+    )
+    
     var body: some View {
-        PopButton {
-            Text("Back")
+        WithViewStore(store) { viewStore in
+            VStack {
+                Text("Logo")
+                    .titleFont()
+                
+                Spacer()
+                
+                VStack(spacing: 16) {
+                    TextField(
+                        "Email",
+                        text: .init(
+                            get: { viewStore.email },
+                            set: { email in viewStore.send(.emailChanged(email)) }
+                        )
+                    )
+                    
+                    TextField(
+                        "Password",
+                        text: .init(
+                            get: { viewStore.password },
+                            set: { password in viewStore.send(.passwordChanged(password)) }
+                        )
+                    )
+                }.padding()
+                
+                Spacer()
+                
+                Button(action: {
+                    viewStore.send(.login)
+                }) {
+                    Text("Login")
+                }
+                
+                Button(action: {
+                    viewStore.send(.register)
+                }) {
+                    Text("Register")
+                }
+                
+                PopButton {
+                    Text("Back")
+                }
+            }
         }.hideNavigationBar()
     }
 }

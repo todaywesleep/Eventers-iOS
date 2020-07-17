@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A121988F24C20C2000BA5D3B /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = A121988E24C20C2000BA5D3B /* Auth.swift */; };
+		A121989224C20F4B00BA5D3B /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A121989124C20F4B00BA5D3B /* AuthManager.swift */; };
 		A158B4E324C0E6970085D58D /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E224C0E6970085D58D /* Title.swift */; };
 		A158B4E624C0E7D20085D58D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E524C0E7D20085D58D /* Colors.swift */; };
 		A158B4E924C0E8A70085D58D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E824C0E8A70085D58D /* Color+.swift */; };
@@ -54,6 +56,8 @@
 		707C91987EFB321E7A5C2632 /* Pods_Eventers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eventers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72BAFDE18B11CDEC675BD387 /* Pods-Eventers-EventersUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eventers-EventersUITests.debug.xcconfig"; path = "Target Support Files/Pods-Eventers-EventersUITests/Pods-Eventers-EventersUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		784D9B9A078B0FB4B73617A6 /* Pods-EventersTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventersTests.release.xcconfig"; path = "Target Support Files/Pods-EventersTests/Pods-EventersTests.release.xcconfig"; sourceTree = "<group>"; };
+		A121988E24C20C2000BA5D3B /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		A121989124C20F4B00BA5D3B /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A158B4E224C0E6970085D58D /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		A158B4E524C0E7D20085D58D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A158B4E824C0E8A70085D58D /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
@@ -136,6 +140,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		A121989424C2188A00BA5D3B /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				A121989124C20F4B00BA5D3B /* AuthManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		A158B4E124C0E6740085D58D /* Modifiers */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +184,7 @@
 		A158B4EB24C0ED5F0085D58D /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				A121988E24C20C2000BA5D3B /* Auth.swift */,
 				A158B4EC24C0ED690085D58D /* AuthView.swift */,
 			);
 			path = Auth;
@@ -217,6 +230,7 @@
 				A158B4E724C0E8920085D58D /* Extensions */,
 				A158B4E124C0E6740085D58D /* Modifiers */,
 				A158B4E424C0E7C50085D58D /* Theme */,
+				A121989424C2188A00BA5D3B /* Managers */,
 				A158B4EA24C0ED360085D58D /* Modules */,
 				A158B4F724C0F4A30085D58D /* View */,
 			);
@@ -519,11 +533,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A158B4ED24C0ED690085D58D /* AuthView.swift in Sources */,
+				A121989224C20F4B00BA5D3B /* AuthManager.swift in Sources */,
 				A18EEFFC24C0C60C0013D45C /* AppDelegate.swift in Sources */,
 				A158B4F924C0F4B40085D58D /* NavigationButton.swift in Sources */,
 				A158B4E924C0E8A70085D58D /* Color+.swift in Sources */,
 				A159BA8024C2009700D90DCA /* AppReducer.swift in Sources */,
 				A158B4E624C0E7D20085D58D /* Colors.swift in Sources */,
+				A121988F24C20C2000BA5D3B /* Auth.swift in Sources */,
 				A18EEFFE24C0C60C0013D45C /* SceneDelegate.swift in Sources */,
 				A158B4EF24C0EFDB0085D58D /* NavigationBarHidden.swift in Sources */,
 				A158B4E324C0E6970085D58D /* Title.swift in Sources */,
