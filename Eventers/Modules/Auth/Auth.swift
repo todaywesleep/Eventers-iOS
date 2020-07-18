@@ -10,7 +10,7 @@ import Foundation
 import ComposableArchitecture
 import Combine
 
-struct AuthState: Equatable {
+struct AuthState: BaseAuthState {
     var email: String
     var password: String
     var isLoading: Bool
@@ -28,9 +28,6 @@ enum AuthAction: Equatable {
     case emailChanged(String)
     case passwordChanged(String)
     
-    case registerResponse(RegistrationResponse)
-    
-    case register
     case login
 }
 
@@ -48,14 +45,6 @@ let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, actio
         state.email = email
     case let .passwordChanged(password):
         state.password = password
-    case .register:
-        state.isLoading = true
-        
-        return environment.authManager.register(using: state.email, password: state.password)
-            .eraseToEffect()
-            .map { response in AuthAction.registerResponse(response) }
-    case let .registerResponse(response):
-        print("[TEST] Registration response: \(response)")
     case .login:
         break
     }

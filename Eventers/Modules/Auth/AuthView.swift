@@ -56,6 +56,18 @@ struct AuthView: View {
         environment: .init()
     )
     
+    private func createRegistrationView(using viewStore: ViewStore<AuthState, AuthAction>) -> RegistrationView {
+        let store = Store<RegistrationState, RegistrationAction>(
+            initialState: RegistrationState.clear,
+            reducer: registrationReducer,
+            environment: RegistrationEnvironment {
+                
+            }
+        )
+        
+        return RegistrationView(store: store)
+    }
+    
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack {
@@ -90,9 +102,7 @@ struct AuthView: View {
                     Text("Login")
                 }
                 
-                Button(action: {
-                    viewStore.send(.register)
-                }) {
+                NavigationLink(destination: self.createRegistrationView(using: viewStore)) {
                     Text("Register")
                 }
                 
@@ -100,7 +110,7 @@ struct AuthView: View {
                     Text("Back")
                 }
             }
-        }.hideNavigationBar()
+        }.hiddenNavigationBar()
     }
 }
 

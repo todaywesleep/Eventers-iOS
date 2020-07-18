@@ -1,5 +1,5 @@
 //
-//  AppReducer.swift
+//  App.swift
 //  Eventers
 //
 //  Created by Vladislav Erchik on 7/17/20.
@@ -8,6 +8,8 @@
 
 import Foundation
 import ComposableArchitecture
+
+let mainNavigationStack = NavigationStack(easing: .default)
 
 struct AppState: Equatable {
     
@@ -22,5 +24,5 @@ struct AppEnvironment {
 }
 
 let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
-    return .none
+    .none
 }

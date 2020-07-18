@@ -17,7 +17,7 @@ private struct WithoutNavigationBar: ViewModifier {
 }
 
 extension View {
-    func hideNavigationBar() -> some View {
+    func hiddenNavigationBar() -> some View {
         self.modifier(WithoutNavigationBar())
     }
 }
