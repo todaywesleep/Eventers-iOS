@@ -30,7 +30,7 @@ enum RegistrationAction: Equatable {
     case emailChanged(String)
     case passwordChanged(String)
     
-    case registerResponse(RegistrationResponse)
+    case registerResponse(AuthResponse)
     case register
     case registered
     
@@ -63,10 +63,10 @@ let registrationReducer = Reducer<RegistrationState, RegistrationAction, Registr
         
     case let .registerResponse(response):
         switch response {
-        case .registered:
+        case .success:
             return Effect(value: .registered)
         case let .error(error):
-            print("[TEST] Registration error: \(error.localizedDescription)")
+            print("[TEST] Registration error: \(error)")
         }
         
     case .back:

@@ -1,7 +1,3 @@
-//
-//  NavigationStack.swift
-//
-
 import SwiftUI
 
 /// Additional Notification names

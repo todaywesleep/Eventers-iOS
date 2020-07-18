@@ -24,25 +24,40 @@ enum RegistrationError: Equatable {
     }
 }
 
-enum RegistrationResponse: Equatable {
-    case registered
-    case error(RegistrationError)
+enum AuthResponse: Equatable {
+    case success
+    case error(String)
 }
 
 class AuthManager {
-    func register(using email: String, password: String) -> Future<RegistrationResponse, Never> {
+    func register(using email: String, password: String) -> Future<AuthResponse, Never> {
         Future { promise in
             Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                guard let _ = result else {
-                    error == nil
-                        ? promise(.success(.error(.registrationUnknown)))
-                        : promise(.success(.error(.custom(error!.localizedDescription))))
-                    
-                    return
-                }
-                
-                promise(.success(.registered))
+                self.handleAuthResponse(result: (result, error), handler: promise)
             }
         }
+    }
+    
+    func authorize(using email: String, password: String) -> Future<AuthResponse, Never> {
+        Future { promise in
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                self.handleAuthResponse(result: (result, error), handler: promise)
+            }
+        }
+    }
+    
+    private func handleAuthResponse(result: (AuthDataResult?, Error?), handler: (Result<AuthResponse, Never>) -> Void) {
+        let response = result.0
+        let error = result.1
+        
+        guard let _ = response else {
+            error == nil
+                ? handler(.success(.error("Unknown error")))
+                : handler(.success(.error(error!.localizedDescription)))
+            
+            return
+        }
+        
+        handler(.success(.success))
     }
 }
