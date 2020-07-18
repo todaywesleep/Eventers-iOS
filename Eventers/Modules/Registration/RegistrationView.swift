@@ -49,7 +49,10 @@ struct RegistrationView: View {
                     Text("Register")
                 }
                 
-                PopButton {
+                
+                Button(action: {
+                    viewStore.send(.back)
+                }) {
                     Text("Back")
                 }.padding(.top)
             }.hiddenNavigationBar()
@@ -62,7 +65,7 @@ struct RegistrationView_Previews: PreviewProvider {
         let store = Store<RegistrationState, RegistrationAction>(
             initialState: .clear,
             reducer: registrationReducer,
-            environment: .init()
+            environment: .init(parentNavigation: .init(easing: .default))
         )
         
         return RegistrationView(store: store)

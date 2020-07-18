@@ -13,19 +13,24 @@ struct ContentView: View {
     let store: Store<AppState, AppAction>
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Splash screen")
-                    .titleFont()
-                
-                Spacer()
-                
-                NavigationLink(destination: AuthView()) {
-                    Text("Authorize")
+        WithViewStore(store) { viewStore in
+            NavigationStackView(navigationStack: mainNavigationStack) {
+                VStack {
+                    Text("Splash screen")
+                        .titleFont()
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        viewStore.send(.login)
+                    }) {
+                        Text("Authorize")
+                            .foregroundColor(.blue)
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
-            }.hiddenNavigationBar()
+            }
         }
     }
 }

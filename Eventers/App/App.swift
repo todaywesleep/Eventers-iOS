@@ -16,7 +16,7 @@ struct AppState: Equatable {
 }
 
 enum AppAction: Equatable {
-    
+    case login
 }
 
 struct AppEnvironment {
@@ -24,5 +24,18 @@ struct AppEnvironment {
 }
 
 let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
-    .none
+    switch action {
+    case .login:
+        let authStore = Store<AuthState, AuthAction>(
+            initialState: .clear,
+            reducer: authReducer,
+            environment: .init(parentNavigation: mainNavigationStack)
+        )
+        
+        let authView = AuthView(store: authStore)
+        
+        mainNavigationStack.push(authView)
+    }
+    
+    return .none
 }

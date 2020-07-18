@@ -15,7 +15,7 @@ struct AuthState: BaseAuthState {
     var password: String
     var isLoading: Bool
     
-    static var empty: AuthState {
+    static var clear: AuthState {
         AuthState(
             email: "",
             password: "",
@@ -29,13 +29,19 @@ enum AuthAction: Equatable {
     case passwordChanged(String)
     
     case login
+    case register
+    
+    case back
 }
 
 struct AuthEnvironment {
     let authManager: AuthManager
+    let parentNavigation: NavigationStack
     
-    init (authManager: AuthManager = .init()) {
+    init (authManager: AuthManager = .init(),
+          parentNavigation: NavigationStack) {
         self.authManager = authManager
+        self.parentNavigation = parentNavigation
     }
 }
 
@@ -47,6 +53,18 @@ let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, actio
         state.password = password
     case .login:
         break
+    case .register:
+        let registrationStore = Store<RegistrationState, RegistrationAction>(
+            initialState: .clear,
+            reducer: registrationReducer,
+            environment: .init(parentNavigation: environment.parentNavigation)
+        )
+        
+        let registrationView = RegistrationView(store: registrationStore)
+        
+        environment.parentNavigation.push(registrationView)
+    case .back:
+        environment.parentNavigation.pop()
     }
     
     return .none

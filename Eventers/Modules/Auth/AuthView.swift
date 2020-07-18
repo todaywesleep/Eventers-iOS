@@ -9,64 +9,8 @@
 import SwiftUI
 import ComposableArchitecture
 
-//struct ContentView0: View {
-//    @State var isActive = false
-//
-//    var body: some View {
-//        NavigationView {
-//            NavigationLink(
-//                destination: ContentView2(rootIsActive: self.$isActive),
-//                isActive: self.$isActive
-//            ) {
-//                Text("Hello, World!")
-//            }
-//            .navigationBarTitle("Root")
-//        }
-//    }
-//}
-//
-//struct ContentView2: View {
-//    @Binding var rootIsActive : Bool
-//
-//    var body: some View {
-//        NavigationLink(destination: ContentView3(shouldPopToRootView: self.$rootIsActive)) {
-//            Text("Hello, World #2!")
-//        }
-//        .navigationBarTitle("Two")
-//    }
-//}
-//
-//struct ContentView3: View {
-//    @Binding var shouldPopToRootView : Bool
-//
-//    var body: some View {
-//        VStack {
-//            Text("Hello, World #3!")
-//            Button (action: { self.shouldPopToRootView = false } ){
-//                Text("Pop to root")
-//            }
-//        }.navigationBarTitle("Three")
-//    }
-//}
-
 struct AuthView: View {
-    let store = Store<AuthState, AuthAction>(
-        initialState: AuthState.empty,
-        reducer: authReducer,
-        environment: .init()
-    )
-    
-    private func createRegistrationView(using viewStore: ViewStore<AuthState, AuthAction>) -> RegistrationView {
-        let store = Store<RegistrationState, RegistrationAction>(
-            initialState: RegistrationState.clear,
-            reducer: registrationReducer,
-            environment: RegistrationEnvironment {
-                
-            }
-        )
-        
-        return RegistrationView(store: store)
-    }
+    let store: Store<AuthState, AuthAction>
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -102,11 +46,15 @@ struct AuthView: View {
                     Text("Login")
                 }
                 
-                NavigationLink(destination: self.createRegistrationView(using: viewStore)) {
+                Button(action: {
+                    viewStore.send(.register)
+                }) {
                     Text("Register")
                 }
                 
-                PopButton {
+                Button(action: {
+                    viewStore.send(.back)
+                }) {
                     Text("Back")
                 }
             }
@@ -116,6 +64,12 @@ struct AuthView: View {
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthView()
+        let store = Store<AuthState, AuthAction>(
+            initialState: AuthState.clear,
+            reducer: authReducer,
+            environment: AuthEnvironment(parentNavigation: .init(easing: .default))
+        )
+        
+        return AuthView(store: store)
     }
 }
