@@ -9,7 +9,7 @@
 import Foundation
 import ComposableArchitecture
 
-let mainNavigationStack = NavigationStack(easing: .default)
+let appNavigationStack = NavigationStack(easing: .default)
 
 struct AppState: Equatable {
     
@@ -29,12 +29,12 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _
         let authStore = Store<AuthState, AuthAction>(
             initialState: .clear,
             reducer: authReducer,
-            environment: .init(parentNavigation: mainNavigationStack)
+            environment: .init(parentNavigation: appNavigationStack)
         )
         
         let authView = AuthView(store: authStore)
         
-        mainNavigationStack.push(authView)
+        appNavigationStack.push(authView)
     }
     
     return .none

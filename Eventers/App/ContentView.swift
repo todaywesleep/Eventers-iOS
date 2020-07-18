@@ -14,7 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            NavigationStackView(navigationStack: mainNavigationStack) {
+            NavigationStackView(navigationStack: appNavigationStack) {
                 VStack {
                     Text("Splash screen")
                         .titleFont()

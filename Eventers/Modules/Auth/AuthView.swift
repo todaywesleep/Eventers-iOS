@@ -27,7 +27,8 @@ struct AuthView: View {
                             get: { viewStore.email },
                             set: { email in viewStore.send(.emailChanged(email)) }
                         )
-                    )
+                    ).keyboardType(.emailAddress)
+                    .autocapitalization(.none)
                     
                     TextField(
                         "Password",

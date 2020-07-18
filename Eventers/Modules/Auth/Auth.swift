@@ -29,6 +29,7 @@ enum AuthAction: Equatable {
     case passwordChanged(String)
     
     case login
+    case loginResponse(AuthResponse)
     case register
     
     case back
@@ -52,7 +53,9 @@ let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, actio
     case let .passwordChanged(password):
         state.password = password
     case .login:
-        break
+        return environment.authManager.authorize(using: state.email, password: state.password)
+            .eraseToEffect()
+            .map { response in AuthAction.loginResponse(response) }
     case .register:
         let registrationStore = Store<RegistrationState, RegistrationAction>(
             initialState: .clear,
@@ -65,7 +68,27 @@ let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, actio
         environment.parentNavigation.push(registrationView)
     case .back:
         environment.parentNavigation.pop()
+    case let .loginResponse(response):
+        handleLoginResponse(response: response, state: &state, navigation: environment.parentNavigation)
     }
     
     return .none
+}
+
+private func handleLoginResponse(response: AuthResponse, state: inout AuthState, navigation: NavigationStack) {
+    switch response {
+    case let .error(text):
+        print("[TEST] Authorization error: \(text)")
+    case .success:
+        let mainStore = Store<MainState, MainAction>(
+            initialState: .init(),
+            reducer: mainReducer,
+            environment: .init()
+        )
+        
+        let mainView = MainView(store: mainStore)
+        
+        appNavigationStack.pop(to: .root)
+        appNavigationStack.push(mainView)
+    }
 }
