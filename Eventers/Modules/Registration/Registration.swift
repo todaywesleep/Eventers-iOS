@@ -13,7 +13,9 @@ import SwiftUI
 struct RegistrationState: BaseAuthState {
     var email: String
     var password: String
-    var isRegistered = false
+    var name: String
+    var lastName: String
+    var phone: String
     
     var isLoading: Bool
     
@@ -21,6 +23,9 @@ struct RegistrationState: BaseAuthState {
         RegistrationState(
             email: "",
             password: "",
+            name: "",
+            lastName: "",
+            phone: "",
             isLoading: false
         )
     }
@@ -29,6 +34,9 @@ struct RegistrationState: BaseAuthState {
 enum RegistrationAction: Equatable {
     case emailChanged(String)
     case passwordChanged(String)
+    case nameChanged(String)
+    case lastNameChanged(String)
+    case phoneChanged(String)
     
     case registerResponse(AuthResponse)
     case register
@@ -56,14 +64,30 @@ let registrationReducer = Reducer<RegistrationState, RegistrationAction, Registr
     case let .passwordChanged(password):
         state.password = password
         
+    case let .nameChanged(name):
+        state.name = name
+        
+    case let .lastNameChanged(lastName):
+        state.lastName = lastName
+        
+    case let .phoneChanged(phone):
+        state.phone = phone
+        
     case .register:
-        return environment.authManager.register(using: state.email, password: state.password)
+        let userModel = UserModel(
+            email: state.email,
+            name: state.name,
+            lastName: state.lastName,
+            phone: state.phone
+        )
+        
+        return environment.authManager.register(password: state.password, userModel: userModel)
             .eraseToEffect()
             .map { response in RegistrationAction.registerResponse(response) }
         
     case let .registerResponse(response):
         switch response {
-        case .success:
+        case .done:
             return Effect(value: .registered)
         case let .error(error):
             print("[TEST] Registration error: \(error)")

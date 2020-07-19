@@ -79,7 +79,7 @@ private func handleLoginResponse(response: AuthResponse, state: inout AuthState,
     switch response {
     case let .error(text):
         print("[TEST] Authorization error: \(text)")
-    case .success:
+    case .done:
         let mainStore = Store<MainState, MainAction>(
             initialState: .init(),
             reducer: mainReducer,

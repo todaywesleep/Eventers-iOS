@@ -39,6 +39,35 @@ struct RegistrationView: View {
                             set: { password in viewStore.send(.passwordChanged(password)) }
                         )
                     )
+                    
+                    Rectangle()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 10)
+                        .foregroundColor(Color.gray)
+                    
+                    TextField(
+                        "Name",
+                        text: .init(
+                            get: { viewStore.name },
+                            set: { name in viewStore.send(.nameChanged(name)) }
+                        )
+                    )
+                    
+                    TextField(
+                        "Last name",
+                        text: .init(
+                            get: { viewStore.lastName },
+                            set: { lastName in viewStore.send(.lastNameChanged(lastName)) }
+                        )
+                    )
+                    
+                    TextField(
+                        "Phone",
+                        text: .init(
+                            get: { viewStore.phone },
+                            set: { phone in viewStore.send(.phoneChanged(phone)) }
+                        )
+                    )
                 }.padding()
 
                 Spacer()
