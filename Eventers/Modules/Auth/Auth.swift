@@ -29,8 +29,9 @@ enum AuthAction: Equatable {
     case passwordChanged(String)
     
     case login
-    case loginResponse(AuthResponse)
+    case loginResponse(Result<AuthResponse, AuthError>)
     case register
+    case error(String)
     
     case back
 }
@@ -54,8 +55,9 @@ let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, actio
         state.password = password
     case .login:
         return environment.authManager.authorize(using: state.email, password: state.password)
-            .eraseToEffect()
-            .map { response in AuthAction.loginResponse(response) }
+            .catchToEffect()
+            .map { result in AuthAction.loginResponse(result) }
+            
     case .register:
         let registrationStore = Store<RegistrationState, RegistrationAction>(
             initialState: .clear,
@@ -70,16 +72,18 @@ let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, actio
         environment.parentNavigation.pop()
     case let .loginResponse(response):
         handleLoginResponse(response: response, state: &state, navigation: environment.parentNavigation)
+    case let .error(text):
+        print("[TEST] Error: \(text)")
     }
     
     return .none
 }
 
-private func handleLoginResponse(response: AuthResponse, state: inout AuthState, navigation: NavigationStack) {
+private func handleLoginResponse(response: Result<AuthResponse, AuthError>, state: inout AuthState, navigation: NavigationStack) {
     switch response {
-    case let .error(text):
-        print("[TEST] Authorization error: \(text)")
-    case .done:
+    case let .failure(error):
+        print("[TEST] Error: \(error.localizedDescription)")
+    case let .success(_):
         let mainStore = Store<MainState, MainAction>(
             initialState: .init(),
             reducer: mainReducer,

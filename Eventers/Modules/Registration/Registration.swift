@@ -38,7 +38,7 @@ enum RegistrationAction: Equatable {
     case lastNameChanged(String)
     case phoneChanged(String)
     
-    case registerResponse(AuthResponse)
+    case registerResponse(Result<AuthResponse, AuthError>)
     case register
     case registered
     
@@ -82,14 +82,14 @@ let registrationReducer = Reducer<RegistrationState, RegistrationAction, Registr
         )
         
         return environment.authManager.register(password: state.password, userModel: userModel)
-            .eraseToEffect()
+            .catchToEffect()
             .map { response in RegistrationAction.registerResponse(response) }
         
     case let .registerResponse(response):
         switch response {
-        case .done:
+        case let .success(result):
             return Effect(value: .registered)
-        case let .error(error):
+        case let .failure(error):
             print("[TEST] Registration error: \(error)")
         }
         
