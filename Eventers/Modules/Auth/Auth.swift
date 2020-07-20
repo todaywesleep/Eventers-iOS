@@ -37,12 +37,9 @@ enum AuthAction: Equatable {
 }
 
 struct AuthEnvironment {
-    let authManager: AuthManager
     let parentNavigation: NavigationStack
     
-    init (authManager: AuthManager = .init(),
-          parentNavigation: NavigationStack) {
-        self.authManager = authManager
+    init (parentNavigation: NavigationStack) {
         self.parentNavigation = parentNavigation
     }
 }
@@ -54,7 +51,7 @@ let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, actio
     case let .passwordChanged(password):
         state.password = password
     case .login:
-        return environment.authManager.authorize(using: state.email, password: state.password)
+        return apiManager.auth.authorize(using: state.email, password: state.password)
             .catchToEffect()
             .map { result in AuthAction.loginResponse(result) }
             

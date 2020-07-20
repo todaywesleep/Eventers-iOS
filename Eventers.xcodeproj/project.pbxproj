@@ -15,6 +15,7 @@
 		A15640E424C30BD300059B5E /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15640E324C30BD300059B5E /* Registration.swift */; };
 		A15640E724C3119300059B5E /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15640E624C3119300059B5E /* RegistrationView.swift */; };
 		A15640EA24C313A300059B5E /* BaseAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15640E924C313A300059B5E /* BaseAuthState.swift */; };
+		A156721524C6447A00BD6240 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A156721424C6447A00BD6240 /* ApiManager.swift */; };
 		A158B4E324C0E6970085D58D /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E224C0E6970085D58D /* Title.swift */; };
 		A158B4E624C0E7D20085D58D /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E524C0E7D20085D58D /* Colors.swift */; };
 		A158B4E924C0E8A70085D58D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A158B4E824C0E8A70085D58D /* Color+.swift */; };
@@ -72,6 +73,7 @@
 		A15640E324C30BD300059B5E /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		A15640E624C3119300059B5E /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		A15640E924C313A300059B5E /* BaseAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAuthState.swift; sourceTree = "<group>"; };
+		A156721424C6447A00BD6240 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		A158B4E224C0E6970085D58D /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		A158B4E524C0E7D20085D58D /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A158B4E824C0E8A70085D58D /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			children = (
 				A121989124C20F4B00BA5D3B /* AuthManager.swift */,
 				A18763C124C3417D00ACE430 /* UserManager.swift */,
+				A156721424C6447A00BD6240 /* ApiManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -606,6 +609,7 @@
 				A1305EDA24C31DA8006948D5 /* NavigationStack.swift in Sources */,
 				A158B4E924C0E8A70085D58D /* Color+.swift in Sources */,
 				A159BA8024C2009700D90DCA /* App.swift in Sources */,
+				A156721524C6447A00BD6240 /* ApiManager.swift in Sources */,
 				A15640E424C30BD300059B5E /* Registration.swift in Sources */,
 				A158B4E624C0E7D20085D58D /* Colors.swift in Sources */,
 				A18763BE24C33DDE00ACE430 /* Main.swift in Sources */,

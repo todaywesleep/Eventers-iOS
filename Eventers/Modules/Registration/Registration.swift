@@ -38,7 +38,7 @@ enum RegistrationAction: Equatable {
     case lastNameChanged(String)
     case phoneChanged(String)
     
-    case registerResponse(Result<AuthResponse, AuthError>)
+    case registrationResponse(Result<AuthResponse, AuthError>)
     case register
     case registered
     
@@ -46,13 +46,10 @@ enum RegistrationAction: Equatable {
 }
 
 struct RegistrationEnvironment {
-    init(authManager: AuthManager = .init(),
-         parentNavigation: NavigationStack) {
-        self.authManager = authManager
+    init(parentNavigation: NavigationStack) {
         self.parentNavigation = parentNavigation
     }
     
-    let authManager: AuthManager
     let parentNavigation: NavigationStack
 }
 
@@ -81,11 +78,11 @@ let registrationReducer = Reducer<RegistrationState, RegistrationAction, Registr
             phone: state.phone
         )
         
-        return environment.authManager.register(password: state.password, userModel: userModel)
+        return apiManager.auth.register(password: state.password, userModel: userModel)
             .catchToEffect()
-            .map { response in RegistrationAction.registerResponse(response) }
+            .map { response in RegistrationAction.registrationResponse(response) }
         
-    case let .registerResponse(response):
+    case let .registrationResponse(response):
         switch response {
         case let .success(result):
             return Effect(value: .registered)

@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 let appNavigationStack = NavigationStack(easing: .default)
+let apiManager: ApiManagerService = ApiManager(authManager: .init(), userManager: .init())
 
 struct AppState: Equatable {
     

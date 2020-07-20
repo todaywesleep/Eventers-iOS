@@ -36,7 +36,7 @@ class AuthManager {
             Auth.auth().createUser(withEmail: userModel.email, password: password) { (result, error) in
                 self.handleAuthResponse(result: (result, error), handler: promise)
                 
-                UserManager().fillUserInfo(email: userModel.email, name: userModel.name, lastName: userModel.lastName, phone: userModel.phone)
+                apiManager.user.fillUserInfo(email: userModel.email, name: userModel.name, lastName: userModel.lastName, phone: userModel.phone)
                     .sink { response in
                         switch response {
                         case .done:
