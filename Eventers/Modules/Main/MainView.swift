@@ -15,7 +15,25 @@ struct MainView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             NavigationStackView(navigationStack: mainNavigationStack) {
-                Text("Hello, World!")
+                TabView {
+                    Text("User screen content")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .tabItem {
+                            Text("User")
+                        }
+                    
+                    Text("Map screen content")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .tabItem {
+                            Text("Map")
+                        }
+                    
+                    Text("Hub screen content")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .tabItem {
+                            Text("Hub")
+                        }
+                }
             }
         }
     }

@@ -31,6 +31,10 @@ enum AuthResponse: Equatable {
 class AuthManager {
     private var cancellableStorage = Set<AnyCancellable>()
     
+    var isAuthorized: Bool {
+        Auth.auth().currentUser != nil
+    }
+    
     func register(password: String, userModel: UserModel) -> Future<AuthResponse, AuthError> {
         Future { promise in
             Auth.auth().createUser(withEmail: userModel.email, password: password) { (result, error) in
@@ -52,7 +56,12 @@ class AuthManager {
     func authorize(using email: String, password: String) -> Future<AuthResponse, AuthError> {
         Future { promise in
             Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                self.handleAuthResponse(result: (result, error), handler: promise)
+                guard let _ = result else {
+                    self.handleAuthResponse(result: (result, error), handler: promise)
+                    return
+                }
+                
+                promise(.success(.done))
             }
         }
     }

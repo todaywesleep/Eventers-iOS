@@ -8,6 +8,7 @@ target 'Eventers' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'RealmSwift' ~> 1.6.0
 
   # Pods for Eventers
 

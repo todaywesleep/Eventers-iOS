@@ -14,22 +14,31 @@ struct ContentView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            NavigationStackView(navigationStack: appNavigationStack) {
-                VStack {
-                    Text("Splash screen")
-                        .titleFont()
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        viewStore.send(.login)
-                    }) {
-                        Text("Authorize")
-                            .foregroundColor(.blue)
+            if !viewStore.state.isAuthorized {
+                NavigationStackView(navigationStack: appNavigationStack) {
+                    VStack {
+                        Text("Splash screen")
+                            .titleFont()
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            viewStore.send(.login)
+                        }) {
+                            Text("Authorize")
+                                .foregroundColor(.blue)
+                        }
+                        
+                        Spacer()
                     }
-                    
-                    Spacer()
                 }
+            } else {
+                MainView(
+                    store: self.store.scope(
+                        state: \.mainState,
+                        action: AppAction.mainAction
+                    )
+                ).frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }
