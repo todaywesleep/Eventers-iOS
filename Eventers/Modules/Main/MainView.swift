@@ -14,28 +14,37 @@ struct MainView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            NavigationStackView(navigationStack: mainNavigationStack) {
-                TabView {
-                    Text("User screen content")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tabItem {
-                            Text("User")
-                        }
-                    
-                    Text("Map screen content")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tabItem {
-                            Text("Map")
-                        }
-                    
-                    Text("Hub screen content")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .tabItem {
-                            Text("Hub")
-                        }
-                }
-            }
-        }
+            VStack {
+                Spacer()
+                
+                RectangleGapView(circleRadius: 40)
+                    .frame(height: 80)
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+//            NavigationStackView(navigationStack: mainNavigationStack) {
+//                TabView {
+//                    Text("User screen content")
+//                    RectangleGapView(circleRadius: 40)
+//                        .frame(maxWidth: .infinity)
+//                        .frame(height: 75)
+//                        .tabItem {
+//                            Text("User")
+//                        }
+//
+//                    Text("Map screen content")
+//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                        .tabItem {
+//                            Text("Map")
+//                        }
+//
+//                    Text("Hub screen content")
+//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                        .tabItem {
+//                            Text("Hub")
+//                        }
+//                }
+//            }
+        }.edgesIgnoringSafeArea(.bottom)
     }
 }
 
