@@ -10,27 +10,35 @@ import SwiftUI
 import ComposableArchitecture
 
 struct TabBarView: View {
-    private let activeItemColor: Color = .white
-    private let inactiveItemColor: Color = .red
-    let store: Store<TabBarState, TabBarAction>
+    private let activeItemColor: Color = .red
+    private let inactiveItemColor: Color = .white
+    private let alignmentStyle: VerticalAlignment
+    private let store: Store<TabBarState, TabBarAction>
+    
+    init(alignmentStyle: VerticalAlignment = .top, store: Store<TabBarState, TabBarAction>) {
+        self.store = store
+        self.alignmentStyle = alignmentStyle
+    }
     
     var body: some View {
         WithViewStore(store) { viewStore in
             ZStack {
                 RectangleGapView(circleRadius: 14)
-                    .frame(height: 48)
                 
-                Button.init(action: {
-                    viewStore.send(TabBarAction.buttonTapped(.add))
-                }) {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.black)
-                }.padding(.bottom, 32)
+                VStack {
+                    Button.init(action: {
+                        viewStore.send(TabBarAction.buttonTapped(.add))
+                    }) {
+                        Image(systemName: "plus.circle.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.black)
+                    }.offset(x: 0, y: -14)
+                    
+                    Spacer()
+                }
                 
-                
-                HStack {
+                HStack(alignment: .top) {
                     Button(action: {
                         viewStore.send(TabBarAction.buttonTapped(.user))
                     }) {
@@ -40,10 +48,11 @@ struct TabBarView: View {
                             .foregroundColor(
                                 viewStore.activeItem == TabBarItem.user ? self.activeItemColor : self.inactiveItemColor
                             )
-                    }.frame(maxWidth: .infinity)
-                    .padding(.trailing, 14)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    }
                     
-                    Spacer()
+                    Spacer().frame(maxHeight: .infinity)
                     
                     Button(action: {
                         viewStore.send(TabBarAction.buttonTapped(.settings))
@@ -52,11 +61,12 @@ struct TabBarView: View {
                             .resizable()
                             .frame(width: 24, height: 24)
                             .foregroundColor(
-                                viewStore.activeItem == TabBarItem.user ? self.activeItemColor : self.inactiveItemColor
+                                viewStore.activeItem == TabBarItem.settings ? self.activeItemColor : self.inactiveItemColor
                             )
-                    }.frame(maxWidth: .infinity)
-                    .padding(.leading, 14)
-                }
+                            .frame(maxWidth: .infinity)
+                        .padding()
+                    }
+                }.frame(maxHeight: .infinity)
             }
         }
     }
@@ -70,6 +80,6 @@ struct TabBarView_Previews: PreviewProvider {
             environment: TabBarEnvironment()
         )
         
-        return TabBarView(store: store)
+        return TabBarView(store: store).frame(height: 200)
     }
 }

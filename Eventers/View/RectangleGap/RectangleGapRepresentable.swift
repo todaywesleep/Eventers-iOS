@@ -18,9 +18,7 @@ struct RectangleGapView: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> RectangleGap {
-        let rectangleGapView = RectangleGap(circleRadius: circleRadius)
-        
-        return rectangleGapView
+        RectangleGap(circleRadius: circleRadius)
     }
     
     func updateUIView(_ uiView: RectangleGap, context: Context) {

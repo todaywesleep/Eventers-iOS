@@ -32,6 +32,7 @@ let tabBarReducer = Reducer<TabBarState, TabBarAction, TabBarEnvironment> { stat
     switch action {
     case let .buttonTapped(buttonType):
         state.activeItem = buttonType
+        print("[TEST] New active: \(buttonType)")
     }
     
     return .none

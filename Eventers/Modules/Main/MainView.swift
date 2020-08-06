@@ -17,8 +17,13 @@ struct MainView: View {
             VStack {
                 Spacer()
                 
-                RectangleGapView(circleRadius: 40)
-                    .frame(height: 80)
+                TabBarView(
+                    alignmentStyle: .top,
+                    store: self.store.scope(
+                        state: \.tabBarState,
+                        action: MainAction.tabBarAction
+                    )
+                ).frame(height: 80)
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
             
 //            NavigationStackView(navigationStack: mainNavigationStack) {

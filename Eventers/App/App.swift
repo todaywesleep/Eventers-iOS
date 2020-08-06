@@ -45,6 +45,9 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             let authView = AuthView(store: authStore)
             
             appNavigationStack.push(authView)
+            
+        case .mainAction:
+            break
         }
         
         return .none
