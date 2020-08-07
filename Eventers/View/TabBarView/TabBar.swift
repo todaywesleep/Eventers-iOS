@@ -9,19 +9,19 @@
 import Foundation
 import ComposableArchitecture
 
-enum TabBarItem {
-    case none
+enum TabBarItem: Int {
     case user
-    case add
+    case map
     case settings
 }
 
 struct TabBarState: Equatable {
-    var activeItem: TabBarItem = .none
+    var activeItem: TabBarItem = .map
 }
 
 enum TabBarAction: Equatable {
     case buttonTapped(_ type: TabBarItem)
+    case fabTapped
 }
 
 struct TabBarEnvironment {
@@ -33,6 +33,8 @@ let tabBarReducer = Reducer<TabBarState, TabBarAction, TabBarEnvironment> { stat
     case let .buttonTapped(buttonType):
         state.activeItem = buttonType
         print("[TEST] New active: \(buttonType)")
+    case .fabTapped:
+        break
     }
     
     return .none

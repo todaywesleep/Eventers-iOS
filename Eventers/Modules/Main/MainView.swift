@@ -12,10 +12,34 @@ import ComposableArchitecture
 struct MainView: View {
     let store: Store<MainState, MainAction>
     
+    init(store: Store<MainState, MainAction>) {
+        self.store = store
+    }
+    
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack {
-                Spacer()
+                TabNavigationView(
+                    views: [
+                        Text("User view")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .wrapped,
+                        
+                        MapView(
+                            store: self.store.scope(
+                                state: \.mapState,
+                                action: MainAction.mapAction
+                            )
+                        ).frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .wrapped,
+                        
+                        Text("Settings view")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .wrapped
+                    ],
+                    stack: &mainTabNavigation,
+                    activeItem: viewStore.tabBarState.activeItem.rawValue
+                ).frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 TabBarView(
                     alignmentStyle: .top,
@@ -25,30 +49,6 @@ struct MainView: View {
                     )
                 ).frame(height: 80)
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            
-//            NavigationStackView(navigationStack: mainNavigationStack) {
-//                TabView {
-//                    Text("User screen content")
-//                    RectangleGapView(circleRadius: 40)
-//                        .frame(maxWidth: .infinity)
-//                        .frame(height: 75)
-//                        .tabItem {
-//                            Text("User")
-//                        }
-//
-//                    Text("Map screen content")
-//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                        .tabItem {
-//                            Text("Map")
-//                        }
-//
-//                    Text("Hub screen content")
-//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                        .tabItem {
-//                            Text("Hub")
-//                        }
-//                }
-//            }
         }.edgesIgnoringSafeArea(.bottom)
     }
 }

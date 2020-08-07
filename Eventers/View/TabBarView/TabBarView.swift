@@ -27,7 +27,7 @@ struct TabBarView: View {
                 
                 VStack {
                     Button.init(action: {
-                        viewStore.send(TabBarAction.buttonTapped(.add))
+                        viewStore.send(TabBarAction.fabTapped)
                     }) {
                         Image(systemName: "plus.circle.fill")
                             .resizable()

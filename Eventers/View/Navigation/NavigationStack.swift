@@ -1,13 +1,13 @@
 import SwiftUI
 
 /// Additional Notification names
-fileprivate extension Notification.Name {
+extension Notification.Name {
     /// This notification is being called when navigation animation state changed (push or pop animation, in progress or done)
     static let globalTransactionChanged = Notification.Name("globalTransactionChanged")
 }
 
 /// The transition type for the whole NavigationStackView.
-public enum NavigationTransition {
+enum NavigationTransition {
     /// Transitions won't be animated.
     case none
 
@@ -19,20 +19,20 @@ public enum NavigationTransition {
 
     /// A right-to-left slide transition on push, a left-to-right slide transition on pop.
     /// - Tag: defaultTransition
-    public static var defaultTransitions: (push: AnyTransition, pop: AnyTransition) {
+     static var defaultTransitions: (push: AnyTransition, pop: AnyTransition) {
         let pushTrans = AnyTransition.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
         let popTrans = AnyTransition.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
         return (pushTrans, popTrans)
     }
 }
 
-private enum NavigationType {
+enum NavigationType {
     case push
     case pop
 }
 
 /// Defines the type of a pop operation.
-public enum PopDestination {
+enum PopDestination {
     /// Pop back to the previous view.
     case previous
 
@@ -44,9 +44,8 @@ public enum PopDestination {
 }
 
 // MARK: ViewModel
-
-public class NavigationStack: ObservableObject {
-    fileprivate private(set) var navigationType = NavigationType.push
+ class NavigationStack: ObservableObject {
+    private(set) var navigationType = NavigationType.push
     /// Customizable easing to apply in pop and push transitions
     private let easing: AnimationType
     static var globalTransaction = false {
@@ -61,7 +60,7 @@ public class NavigationStack: ObservableObject {
     
     @Published var isTransactionInProgress: Bool = globalTransaction
     
-    public init(easing: AnimationType) {
+    init(easing: AnimationType) {
         self.easing = easing
         NotificationCenter.default.addObserver(
             forName: .globalTransactionChanged,
@@ -77,13 +76,13 @@ public class NavigationStack: ObservableObject {
         }
     }
 
-    @Published fileprivate var currentView: ViewElement?
+    @Published var currentView: ViewElement?
 
     /// Navigates to a view.
     /// - Parameters:
     ///   - element: The destination view.
     ///   - identifier: The ID of the destination view (used to easily come back to it if needed).
-    public func push<Element: View>(_ element: Element, withId identifier: String? = nil) {
+    func push<Element: View>(_ element: Element, withId identifier: String? = nil) {
         lockNestedContent()
         navigationType = .push
         
@@ -102,7 +101,7 @@ public class NavigationStack: ObservableObject {
 
     /// Navigates back to a previous view.
     /// - Parameter to: The destination type of the transition operation.
-    public func pop(to: PopDestination = .previous) {
+    func pop(to: PopDestination = .previous) {
         lockNestedContent()
         navigationType = .pop
         
@@ -127,58 +126,17 @@ public class NavigationStack: ObservableObject {
     }
     
     /// Is navigation stack empty.
-    public var isEmpty: Bool {
+     var isEmpty: Bool {
         viewStack.isEmpty
     }
     
-    public func contains(viewID: String) -> Bool {
+     func contains(viewID: String) -> Bool {
         viewStack.indexForView(withId: viewID) != nil
-    }
-
-    //the actual stack
-    private struct ViewStack {
-        private var views = [ViewElement]()
-        
-        var isEmpty: Bool {
-            views.isEmpty
-        }
-
-        func peek() -> ViewElement? {
-            views.last
-        }
-
-        mutating func push(_ element: ViewElement) {
-            if indexForView(withId: element.id) != nil {
-                fatalError("Duplicated view identifier: \"\(element.id)\". You are trying to push a view with an identifier that already exists on the navigation stack.")
-            }
-            views.append(element)
-        }
-
-        mutating func popToPrevious() {
-            _ = views.popLast()
-        }
-
-        mutating func popToView(withId identifier: String) {
-            guard let viewIndex = indexForView(withId: identifier) else {
-                fatalError("Identifier \"\(identifier)\" not found. You are trying to pop to a view that doesn't exist.")
-            }
-            views.removeLast(views.count - (viewIndex + 1))
-        }
-
-        mutating func popToRoot() {
-            views.removeAll()
-        }
-
-        func indexForView(withId identifier: String) -> Int? {
-            views.firstIndex {
-                $0.id == identifier
-            }
-        }
     }
 }
 
 //the actual element in the stack
-private struct ViewElement: Identifiable, Equatable {
+struct ViewElement: Identifiable, Equatable {
     let id: String
     let wrappedElement: AnyView
 
@@ -187,10 +145,59 @@ private struct ViewElement: Identifiable, Equatable {
     }
 }
 
+struct ViewStack {
+    private var views = [ViewElement]()
+    
+    var isEmpty: Bool {
+        views.isEmpty
+    }
+    
+    var count: Int {
+        views.count
+    }
+
+    func peek() -> ViewElement? {
+        views.last
+    }
+    
+    func getView(by index: Int) -> ViewElement? {
+        guard index < views.count else { return nil }
+        return views[index]
+    }
+
+    mutating func push(_ element: ViewElement) {
+        if indexForView(withId: element.id) != nil {
+            fatalError("Duplicated view identifier: \"\(element.id)\". You are trying to push a view with an identifier that already exists on the navigation stack.")
+        }
+        views.append(element)
+    }
+
+    mutating func popToPrevious() {
+        _ = views.popLast()
+    }
+
+    mutating func popToView(withId identifier: String) {
+        guard let viewIndex = indexForView(withId: identifier) else {
+            fatalError("Identifier \"\(identifier)\" not found. You are trying to pop to a view that doesn't exist.")
+        }
+        views.removeLast(views.count - (viewIndex + 1))
+    }
+
+    mutating func popToRoot() {
+        views.removeAll()
+    }
+
+    func indexForView(withId identifier: String) -> Int? {
+        views.firstIndex {
+            $0.id == identifier
+        }
+    }
+}
+
 // MARK: Views
 
 /// An alternative SwiftUI NavigationView implementing classic stack-based navigation giving also some more control on animations and programmatic navigation.
-public struct NavigationStackView<Root>: View where Root: View {
+ struct NavigationStackView<Root>: View where Root: View {
     @ObservedObject private var navViewModel: NavigationStack
     private let rootViewID = "root"
     private let rootView: Root
@@ -201,7 +208,7 @@ public struct NavigationStackView<Root>: View where Root: View {
     ///   - transitionType: The type of transition to apply between views in every push and pop operation.
     ///   - easing: The easing function to apply to every push and pop operation.
     ///   - rootView: The very first view in the NavigationStack.
-    public init(transitionType: NavigationTransition = .default, navigationStack: NavigationStack = NavigationStack(easing: .easeOut(duration: 0.35)), @ViewBuilder rootView: () -> Root) {
+    init(transitionType: NavigationTransition = .default, navigationStack: NavigationStack = NavigationStack(easing: .easeOut(duration: 0.35)), @ViewBuilder rootView: () -> Root) {
         self.rootView = rootView()
         self.navViewModel = navigationStack
         switch transitionType {
@@ -214,7 +221,7 @@ public struct NavigationStackView<Root>: View where Root: View {
         }
     }
 
-    public var body: some View {
+     var body: some View {
         let showRoot = navViewModel.currentView == nil
         let navigationType = navViewModel.navigationType
 
@@ -236,7 +243,7 @@ public struct NavigationStackView<Root>: View where Root: View {
     }
 }
 
-public enum AnimationType {
+ enum AnimationType {
     // Looks like default time animation in SwiftUI == 0.35
     // To proof it, try to out each type of animation
     // po Animation.default: AnyAnimator(SwiftUI.(unknown context at $7fff2c9bccf4).BezierAnimation(duration: 0.35...
@@ -244,7 +251,7 @@ public enum AnimationType {
     // po Animation.easeIn: AnyAnimator(SwiftUI.(unknown context at $7fff2c9bccf4).BezierAnimation(duration: 0.35...
     // po Animation.easeOut: AnyAnimator(SwiftUI.(unknown context at $7fff2c9bccf4).BezierAnimation(duration: 0.35...
     // po Animation.linear: AnyAnimator(SwiftUI.(unknown context at $7fff2c9bccf4).BezierAnimation(duration: 0.35...
-    public static let defaultDuration: Double = 0.35
+    static let defaultDuration: Double = 0.35
     
     case easeInOut(duration: Double = defaultDuration)
     case easeIn(duration: Double = defaultDuration)
