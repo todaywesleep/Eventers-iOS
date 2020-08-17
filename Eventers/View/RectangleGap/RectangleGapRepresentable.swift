@@ -98,7 +98,6 @@ class RectangleGap: UIView {
         fillLayer.lineWidth = 3
         fillLayer.path = linePath.cgPath
         fillLayer.fillColor = UIColor.black.cgColor
-        fillLayer.strokeColor = UIColor.red.cgColor
 
         layer.addSublayer(fillLayer)
     }

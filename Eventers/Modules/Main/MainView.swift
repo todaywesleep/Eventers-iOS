@@ -23,6 +23,7 @@ struct MainView: View {
                     views: [
                         Text("User view")
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color.white)
                             .wrapped,
                         
                         MapView(
@@ -31,15 +32,17 @@ struct MainView: View {
                                 action: MainAction.mapAction
                             )
                         ).frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.white)
                         .wrapped,
                         
                         Text("Settings view")
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color.white)
                             .wrapped
                     ],
                     stack: &mainTabNavigation,
                     activeItem: viewStore.tabBarState.activeItem.rawValue
-                ).frame(maxWidth: .infinity, maxHeight: .infinity)
+                )
                 
                 TabBarView(
                     alignmentStyle: .top,
@@ -48,7 +51,7 @@ struct MainView: View {
                         action: MainAction.tabBarAction
                     )
                 ).frame(height: 80)
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }.edgesIgnoringSafeArea(.bottom)
     }
 }

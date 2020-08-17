@@ -161,7 +161,7 @@ struct ViewStack {
     }
     
     func getView(by index: Int) -> ViewElement? {
-        guard index < views.count else { return nil }
+        guard index < views.count && index > -1 else { return nil }
         return views[index]
     }
 

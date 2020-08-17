@@ -15,6 +15,7 @@ struct MapView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             Text("Here may be mapView")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
