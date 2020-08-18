@@ -42,7 +42,10 @@ struct MainView: View {
                     ],
                     stack: &mainTabNavigation,
                     activeItem: viewStore.tabBarState.activeItem.rawValue
-                )
+                ) { selectedPage in
+                    guard let tab = TabBarItem(rawValue: selectedPage) else { return }
+                    viewStore.send(MainAction.tabBarAction(TabBarAction.buttonTapped(tab)))
+                }
                 
                 TabBarView(
                     alignmentStyle: .top,

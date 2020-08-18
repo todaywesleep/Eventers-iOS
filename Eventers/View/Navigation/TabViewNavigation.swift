@@ -48,8 +48,9 @@ public class TabNavigationStack: ObservableObject {
     // Threshold of swipe == 10% of screen size
     private static let swipeThreshold = UIScreen.main.bounds.size.width * 0.1
     private var startedSwipeAnination = false
+    private var onPageChange: (Int) -> ()
 
-    init(views: [AnyView], stack: inout TabNavigationStack, activeItem: Int = 0) {
+    init(views: [AnyView], stack: inout TabNavigationStack, activeItem: Int = 0, onPageChangeListener: @escaping (Int) -> () = { _ in }) {
         var viewElements = [ViewElement]()
         
         for index in 0..<views.count {
@@ -62,6 +63,7 @@ public class TabNavigationStack: ObservableObject {
         }
         
         self.navViewModel = .init(by: viewElements, activeItem: activeItem)
+        self.onPageChange = onPageChangeListener
         stack = self.navViewModel
     }
 
@@ -81,6 +83,7 @@ public class TabNavigationStack: ObservableObject {
                             guard index > -1, index < self.navViewModel.count else { return }
                             
                             self.navViewModel.select(viewIndex: index)
+                            self.onPageChange(index)
                         }
                     }
             )
