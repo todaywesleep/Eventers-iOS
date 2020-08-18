@@ -8,19 +8,29 @@
 
 import Foundation
 import ComposableArchitecture
+import ComposableCoreLocation
 
 struct MapState: Equatable {
     
 }
 
 enum MapAction: Equatable {
-    
+    case locationManager(LocationManager.Action)
 }
 
 struct MapEnvironment {
-    
+    var locationManager: LocationManager
 }
 
 let mapReducer = Reducer<MapState, MapAction, MapEnvironment> { state, action, environment in
-    .none
+    switch action {
+    case let .locationManager(locationAction):
+        return handleLocationAction(state: &state, action: locationAction)
+    }
+}
+
+private func handleLocationAction(state: inout MapState, action: LocationManager.Action) -> Effect<MapAction, Never> {
+    
+    
+    return .none
 }

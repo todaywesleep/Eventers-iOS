@@ -21,10 +21,14 @@ struct MainView: View {
             VStack {
                 TabNavigationView(
                     views: [
-                        Text("User view")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.white)
-                            .wrapped,
+                        UserPageView(
+                            store: self.store.scope(
+                                state: \.userPageState,
+                                action: MainAction.userPageAction
+                            )
+                        ).frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.white)
+                        .wrapped,
                         
                         MapView(
                             store: self.store.scope(
@@ -64,7 +68,7 @@ struct MainView_Previews: PreviewProvider {
         let store = Store<MainState, MainAction>(
             initialState: .init(),
             reducer: mainReducer,
-            environment: .init()
+            environment: .init(locationManager: .mock())
         )
         
         return MainView(store: store)

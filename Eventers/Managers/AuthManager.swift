@@ -66,6 +66,17 @@ class AuthManager {
         }
     }
     
+    func logout() -> Future<AuthResponse, AuthError> {
+        Future { promise in
+            do {
+               try Auth.auth().signOut()
+                promise(.success(AuthResponse.done))
+            } catch(let error) {
+                promise(.failure(AuthError.custom(error.localizedDescription)))
+            }
+        }
+    }
+    
     private func handleAuthResponse(result: (AuthDataResult?, Error?), handler: (Result<AuthResponse, AuthError>) -> Void) {
         let response = result.0
         let error = result.1

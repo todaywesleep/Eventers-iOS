@@ -84,7 +84,8 @@ let registrationReducer = Reducer<RegistrationState, RegistrationAction, Registr
         
     case let .registrationResponse(response):
         switch response {
-        case let .success(result):
+        case let .success(result):appNavigationStack.pop(to: .root)
+            mainNavigationStack.pop(to: .root)
             return Effect(value: .registered)
         case let .failure(error):
             print("[TEST] Registration error: \(error)")

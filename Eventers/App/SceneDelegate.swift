@@ -9,6 +9,7 @@
 import UIKit
 import SwiftUI
 import ComposableArchitecture
+import ComposableCoreLocation
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -24,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let appStore = Store<AppState, AppAction>(
             initialState: AppState(),
             reducer: appReducer,
-            environment: AppEnvironment()
+            environment: AppEnvironment(locationManager: LocationManager.live)
         )
         
         let contentView = ContentView(store: appStore)

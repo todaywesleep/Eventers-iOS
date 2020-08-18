@@ -48,7 +48,13 @@ struct AuthView: View {
                 }
                 
                 Button(action: {
-                    viewStore.send(.register)
+                    let registrationStore = self.store.scope(
+                        state: \.registrationState,
+                        action: AuthAction.registrationAction
+                    )
+                    
+                    let registrationView = RegistrationView(store: registrationStore)
+                    appNavigationStack.push(registrationView)
                 }) {
                     Text("Register")
                 }

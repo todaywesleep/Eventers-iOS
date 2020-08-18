@@ -14,6 +14,7 @@ struct AuthState: BaseAuthState {
     var email: String
     var password: String
     var isLoading: Bool
+    var registrationState = RegistrationState.clear
     
     static var clear: AuthState {
         AuthState(
@@ -25,12 +26,14 @@ struct AuthState: BaseAuthState {
 }
 
 enum AuthAction: Equatable {
+    case registrationAction(RegistrationAction)
+    
     case emailChanged(String)
     case passwordChanged(String)
     
     case login
     case loginResponse(Result<AuthResponse, AuthError>)
-    case register
+    case loginSuccessful
     case error(String)
     
     case back
@@ -44,52 +47,45 @@ struct AuthEnvironment {
     }
 }
 
-let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment> { state, action, environment in
-    switch action {
-    case let .emailChanged(email):
-        state.email = email
-    case let .passwordChanged(password):
-        state.password = password
-    case .login:
-        return apiManager.auth.authorize(using: state.email, password: state.password)
-            .catchToEffect()
-            .map { result in AuthAction.loginResponse(result) }
-            
-    case .register:
-        let registrationStore = Store<RegistrationState, RegistrationAction>(
-            initialState: .clear,
-            reducer: registrationReducer,
-            environment: .init(parentNavigation: environment.parentNavigation)
-        )
+let authReducer = Reducer<AuthState, AuthAction, AuthEnvironment>.combine(
+    registrationReducer.pullback(
+        state: \AuthState.registrationState,
+        action: /AuthAction.registrationAction,
+        environment: { environment in RegistrationEnvironment(parentNavigation: environment.parentNavigation) }
+    ),
+    Reducer { state, action, environment in
+        switch action {
+        case let .emailChanged(email):
+            state.email = email
+        case let .passwordChanged(password):
+            state.password = password
+        case .login:
+            return apiManager.auth.authorize(using: state.email, password: state.password)
+                .catchToEffect()
+                .map { result in AuthAction.loginResponse(result) }
+        case .back:
+            environment.parentNavigation.pop()
+        case let .loginResponse(response):
+            return handleLoginResponse(response: response, state: &state)
+        case let .error(text):
+            print("[TEST] Error: \(text)")
+        case .loginSuccessful:
+            break
+        case .registrationAction:
+            break
+        }
         
-        let registrationView = RegistrationView(store: registrationStore)
-        
-        environment.parentNavigation.push(registrationView)
-    case .back:
-        environment.parentNavigation.pop()
-    case let .loginResponse(response):
-        handleLoginResponse(response: response, state: &state, navigation: environment.parentNavigation)
-    case let .error(text):
-        print("[TEST] Error: \(text)")
+        return .none
     }
-    
-    return .none
-}
+)
 
-private func handleLoginResponse(response: Result<AuthResponse, AuthError>, state: inout AuthState, navigation: NavigationStack) {
+private func handleLoginResponse(response: Result<AuthResponse, AuthError>, state: inout AuthState) -> Effect<AuthAction, Never> {
     switch response {
     case let .failure(error):
         print("[TEST] Error: \(error.localizedDescription)")
-    case let .success(_):
-        let mainStore = Store<MainState, MainAction>(
-            initialState: .init(),
-            reducer: mainReducer,
-            environment: .init()
-        )
-        
-        let mainView = MainView(store: mainStore)
-        
-        appNavigationStack.pop(to: .root)
-        appNavigationStack.push(mainView)
+    case .success(_):
+        return Effect(value: AuthAction.loginSuccessful)
     }
+    
+    return .none
 }

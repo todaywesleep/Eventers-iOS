@@ -8,6 +8,8 @@
 
 import SwiftUI
 import ComposableArchitecture
+import MapKit
+import ComposableCoreLocation
 
 struct MapView: View {
     let store: Store<MapState, MapAction>
@@ -25,7 +27,7 @@ struct MapView_Previews: PreviewProvider {
         let store = Store<MapState, MapAction>(
             initialState: MapState(),
             reducer: mapReducer,
-            environment: MapEnvironment()
+            environment: MapEnvironment(locationManager: .mock())
         )
         
         return MapView(store: store)

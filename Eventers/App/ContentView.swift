@@ -14,31 +14,34 @@ struct ContentView: View {
     
     var body: some View {
         WithViewStore(store) { viewStore in
-            if !viewStore.state.isAuthorized {
-                NavigationStackView(navigationStack: appNavigationStack) {
-                    VStack {
-                        Text("Splash screen")
-                            .titleFont()
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            viewStore.send(.login)
-                        }) {
-                            Text("Authorize")
-                                .foregroundColor(.blue)
+            Group {
+                    NavigationStackView(navigationStack: appNavigationStack) {
+                        VStack {
+                            Text("Splash screen")
+                                .titleFont()
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                let authStore = self.store.scope(
+                                    state: \.authState,
+                                    action: AppAction.authAction
+                                )
+                                
+                                let authView = AuthView(store: authStore)
+                                appNavigationStack.push(authView)
+                            }) {
+                                Text("Authorize")
+                                    .foregroundColor(.blue)
+                            }
+                            
+                            Spacer()
                         }
-                        
-                        Spacer()
                     }
+            }.onAppear {
+                if !viewStore.state.isAuthorized {
+                    viewStore.send(.authAction(.loginResponse(.success(.done))))
                 }
-            } else {
-                MainView(
-                    store: self.store.scope(
-                        state: \.mainState,
-                        action: AppAction.mainAction
-                    )
-                ).frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }
@@ -49,7 +52,7 @@ struct ContentView_Previews: PreviewProvider {
         let store = Store<AppState, AppAction>(
             initialState: AppState(),
             reducer: appReducer,
-            environment: AppEnvironment()
+            environment: AppEnvironment(locationManager: .mock())
         )
         
         return ContentView(store: store)
