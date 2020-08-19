@@ -2,34 +2,34 @@
 //  MapView.swift
 //  Eventers
 //
-//  Created by Vladislav Erchik on 8/7/20.
+//  Created by Vladislav Erchik on 8/19/20.
 //  Copyright © 2020 Vladislav Erchik. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
-import ComposableArchitecture
 import MapKit
-import ComposableCoreLocation
 
-struct MapView: View {
-    let store: Store<MapState, MapAction>
-    
-    var body: some View {
-        WithViewStore(store) { viewStore in
-            Text("Here may be mapView")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
+struct MapView: UIViewRepresentable {
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        return mapView
     }
-}
 
-struct MapView_Previews: PreviewProvider {
-    static var previews: some View {
-        let store = Store<MapState, MapAction>(
-            initialState: MapState(),
-            reducer: mapReducer,
-            environment: MapEnvironment(locationManager: .mock())
-        )
-        
-        return MapView(store: store)
+    func updateUIView(_ view: MKMapView, context: Context) {
+
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: MapView
+
+        init(_ parent: MapView) {
+            self.parent = parent
+        }
     }
 }

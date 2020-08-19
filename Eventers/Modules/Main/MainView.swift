@@ -30,12 +30,13 @@ struct MainView: View {
                         .background(Color.white)
                         .wrapped,
                         
-                        MapView(
+                        MapPage(
                             store: self.store.scope(
                                 state: \.mapState,
                                 action: MainAction.mapAction
                             )
-                        ).frame(maxWidth: .infinity, maxHeight: .infinity)
+                        ).padding(.bottom, -70)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color.white)
                         .wrapped,
                         
