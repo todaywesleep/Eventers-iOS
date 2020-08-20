@@ -29,10 +29,13 @@ struct TabBarView: View {
                     Button.init(action: {
                         viewStore.send(TabBarAction.fabTapped)
                     }) {
-                        Image(systemName: "plus.circle.fill")
+                        Image(systemName: viewStore.favIconSystemName)
                             .resizable()
+                            .padding(8)
                             .frame(width: 40, height: 40)
-                            .foregroundColor(.black)
+                            .background(Color.black)
+                            .cornerRadius(20)
+                            .foregroundColor(.white)
                     }.offset(x: 0, y: -14)
                     
                     Spacer()

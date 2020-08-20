@@ -35,6 +35,7 @@ public class TabNavigationStack: ObservableObject {
     func select(viewIndex: Int) {
         guard let viewElement = viewStack.getView(by: viewIndex) else { return }
         currentView = viewElement
+        print("[TEST] Selected Index: \(viewIndex)")
     }
 }
 
@@ -68,7 +69,7 @@ public class TabNavigationStack: ObservableObject {
     }
 
      var body: some View {
-        print("[Test] Current id: \(navViewModel.currentView!.id)")
+        print("[TEST] Current id: \(navViewModel.currentView!.id)")
         
         return navViewModel.currentView!.wrappedElement
             .id(navViewModel.currentView!.id)

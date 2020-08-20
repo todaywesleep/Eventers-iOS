@@ -8,6 +8,7 @@
 
 import Foundation
 import ComposableArchitecture
+import SwiftUI
 
 enum TabBarItem: Int {
     case user
@@ -17,10 +18,13 @@ enum TabBarItem: Int {
 
 struct TabBarState: Equatable {
     var activeItem: TabBarItem = .map
+    
+    var favIconSystemName: String = "plus"
 }
 
 enum TabBarAction: Equatable {
     case buttonTapped(_ type: TabBarItem)
+    case replaceFabImage(_ systemName: String)
     case fabTapped
 }
 
@@ -32,7 +36,11 @@ let tabBarReducer = Reducer<TabBarState, TabBarAction, TabBarEnvironment> { stat
     switch action {
     case let .buttonTapped(buttonType):
         state.activeItem = buttonType
-        print("[TEST] New active: \(buttonType)")
+        
+        let newTabBarImage = buttonType == .map ? "plus.circle.fill" : "map"
+        return Effect(value: TabBarAction.replaceFabImage(newTabBarImage))
+    case let .replaceFabImage(systemName):
+        state.favIconSystemName = systemName
     case .fabTapped:
         break
     }

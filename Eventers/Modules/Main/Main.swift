@@ -9,14 +9,22 @@
 import Foundation
 import ComposableArchitecture
 import ComposableCoreLocation
+import Combine
 
 let mainNavigationStack: NavigationStack = .init(easing: .default)
 var mainTabNavigation: TabNavigationStack = .init(by: [])
+
+enum MainViewMode {
+    case normal
+    case createModal
+}
 
 struct MainState: Equatable {
     var tabBarState: TabBarState = .init(activeItem: .map)
     var mapState: MapState = .init()
     var userPageState: UserPageState = .init()
+    
+    var viewMode: MainViewMode = .normal
 }
 
 enum MainAction: Equatable {
@@ -48,9 +56,7 @@ let mainReducer: Reducer<MainState, MainAction, MainEnvironment> = .combine(
     Reducer { state, action, environment in
         switch action {
         case let .tabBarAction(tabBarAction):
-            if case let .buttonTapped(tab) = tabBarAction {
-                mainTabNavigation.select(viewIndex: tab.rawValue)
-            }
+            return processTabBarAction(state: &state, action: tabBarAction)
         case .mapAction:
             break
         case let .userPageAction(userPageAction):
@@ -60,3 +66,19 @@ let mainReducer: Reducer<MainState, MainAction, MainEnvironment> = .combine(
         return .none
     }
 )
+
+private func processTabBarAction(state: inout MainState, action: TabBarAction) -> Effect<MainAction, Never> {
+    switch action {
+    case let .buttonTapped(tabBarItem):
+        mainTabNavigation.select(viewIndex: tabBarItem.rawValue)
+    case .fabTapped:
+        state.viewMode = state.viewMode == MainViewMode.normal ? .createModal : .normal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            mainTabNavigation.select(viewIndex: TabBarItem.map.rawValue)
+        }
+    case .replaceFabImage:
+        break
+    }
+    
+    return .none
+}
